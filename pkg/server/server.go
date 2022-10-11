@@ -32,15 +32,15 @@ import (
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/bgpconfig"
-	"github.com/osrg/gobgp/v3/internal/pkg/table"
-	"github.com/osrg/gobgp/v3/internal/pkg/version"
-	"github.com/osrg/gobgp/v3/internal/pkg/zebra"
-	"github.com/osrg/gobgp/v3/pkg/apiutil"
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
-	"github.com/osrg/gobgp/v3/pkg/packet/bmp"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
+	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/internal/pkg/version"
+	"github.com/wenovus/gobgp/v3/internal/pkg/zebra"
+	"github.com/wenovus/gobgp/v3/pkg/apiutil"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bmp"
 )
 
 type tcpListener struct {

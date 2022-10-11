@@ -23,8 +23,8 @@ import (
 
 	farm "github.com/dgryski/go-farm"
 
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 const (

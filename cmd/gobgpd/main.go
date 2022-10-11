@@ -34,9 +34,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/osrg/gobgp/v3/internal/pkg/version"
-	"github.com/osrg/gobgp/v3/pkg/config"
-	"github.com/osrg/gobgp/v3/pkg/server"
+	"github.com/wenovus/gobgp/v3/internal/pkg/version"
+	"github.com/wenovus/gobgp/v3/pkg/config"
+	"github.com/wenovus/gobgp/v3/pkg/server"
 )
 
 var logger = logrus.New()

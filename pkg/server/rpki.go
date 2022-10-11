@@ -25,11 +25,11 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/osrg/gobgp/v3/pkg/bgpconfig"
-	"github.com/osrg/gobgp/v3/internal/pkg/table"
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
-	"github.com/osrg/gobgp/v3/pkg/packet/rtr"
+	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
+	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/pkg/packet/rtr"
 )
 
 const (

@@ -27,10 +27,10 @@ import (
 	"sync"
 
 	"github.com/k-sone/critbitgo"
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/bgpconfig"
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 type PolicyOptions struct {

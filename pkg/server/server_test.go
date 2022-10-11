@@ -30,12 +30,12 @@ import (
 	"github.com/stretchr/testify/require"
 	apb "google.golang.org/protobuf/types/known/anypb"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/bgpconfig"
-	"github.com/osrg/gobgp/v3/internal/pkg/table"
-	"github.com/osrg/gobgp/v3/pkg/apiutil"
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
+	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/apiutil"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 var logger = log.NewDefaultLogger()
