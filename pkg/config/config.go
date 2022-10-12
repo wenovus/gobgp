@@ -5,9 +5,9 @@ import (
 	apb "google.golang.org/protobuf/types/known/anypb"
 
 	api "github.com/wenovus/gobgp/v3/api"
-	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
-	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/table"
 	"github.com/wenovus/gobgp/v3/pkg/apiutil"
+	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
 	"github.com/wenovus/gobgp/v3/pkg/log"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 	"github.com/wenovus/gobgp/v3/pkg/server"
@@ -230,6 +230,9 @@ func InitialConfig(ctx context.Context, bgpServer *server.BgpServer, newConfig *
 	}); err != nil {
 		bgpServer.Log().Fatal("failed to set global config",
 			log.Fields{"Topic": "config", "Error": err})
+	} else {
+		newConfig.Global.State.RouterId = newConfig.Global.Config.RouterId
+		newConfig.Global.State.As = newConfig.Global.Config.As
 	}
 
 	if newConfig.Zebra.Config.Enabled {

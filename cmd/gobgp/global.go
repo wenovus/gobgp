@@ -29,7 +29,7 @@ import (
 	"github.com/spf13/cobra"
 
 	api "github.com/wenovus/gobgp/v3/api"
-	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/table"
 	"github.com/wenovus/gobgp/v3/pkg/apiutil"
 
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"

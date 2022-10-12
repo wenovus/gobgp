@@ -22,7 +22,7 @@ import (
 	"time"
 
 	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
-	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/table"
 	"github.com/wenovus/gobgp/v3/pkg/log"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 	"github.com/wenovus/gobgp/v3/pkg/packet/mrt"

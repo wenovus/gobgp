@@ -34,7 +34,7 @@ import (
 
 	api "github.com/wenovus/gobgp/v3/api"
 	"github.com/wenovus/gobgp/v3/pkg/bgpconfig"
-	"github.com/wenovus/gobgp/v3/internal/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/table"
 	"github.com/wenovus/gobgp/v3/internal/pkg/version"
 	"github.com/wenovus/gobgp/v3/internal/pkg/zebra"
 	"github.com/wenovus/gobgp/v3/pkg/apiutil"
