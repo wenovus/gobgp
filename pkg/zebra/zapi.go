@@ -40,6 +40,10 @@ const (
 	DefaultVrf = 0
 )
 
+var (
+	MaxSoftware = NewSoftware(8, "frr8.2")
+)
+
 const (
 	headerMarker      uint8 = 255
 	frrHeaderMarker   uint8 = 254
@@ -1758,6 +1762,10 @@ func (h *Header) decodeFromBytes(data []byte) error {
 		return fmt.Errorf("unsupported ZAPI version: %d", h.Version)
 	}
 	return nil
+}
+
+func Serialize(body Body) ([]byte, error) {
+	return body.serialize(MaxZapiVer, MaxSoftware)
 }
 
 // Body is an interface for zebra messages.
