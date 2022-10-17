@@ -1764,8 +1764,12 @@ func (h *Header) decodeFromBytes(data []byte) error {
 	return nil
 }
 
-func Serialize(body Body) ([]byte, error) {
-	return body.serialize(MaxZapiVer, MaxSoftware)
+func Serialize(s serializer) ([]byte, error) {
+	return s.serialize(MaxZapiVer, MaxSoftware)
+}
+
+type serializer interface {
+	serialize(uint8, Software) ([]byte, error)
 }
 
 // Body is an interface for zebra messages.
