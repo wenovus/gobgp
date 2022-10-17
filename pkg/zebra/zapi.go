@@ -1384,7 +1384,7 @@ func NewClient(logger log.Logger, network, address string, typ RouteType, versio
 		for {
 			m, more := <-outgoing
 			if more {
-				b, err := m.serialize(software)
+				b, err := m.Serialize(software)
 				if err != nil {
 					logger.Warn(fmt.Sprintf("failed to serialize: %v", m),
 						log.Fields{
@@ -3524,7 +3524,7 @@ type Message struct {
 	Body   Body
 }
 
-func (m *Message) serialize(software Software) ([]byte, error) {
+func (m *Message) Serialize(software Software) ([]byte, error) {
 	var body []byte
 	if m.Body != nil {
 		var err error
