@@ -24,10 +24,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/wenovus/gobgp/v3/pkg/table"
-	"github.com/wenovus/gobgp/v3/pkg/zebra"
 	"github.com/wenovus/gobgp/v3/pkg/log"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/pkg/table"
+	"github.com/wenovus/gobgp/v3/pkg/zebra"
 )
 
 // nexthopStateCache stores a map of nexthop IP to metric value. Especially,
@@ -416,6 +416,11 @@ func (z *zebraClient) loop() {
 					}
 				}
 				z.mplsLabel.unassignedVrf = nil
+			default:
+				z.server.logger.Info("zebra got unhandled message",
+					log.Fields{
+						"Topic":   "Zebra",
+						"Message": fmt.Sprint(msg.Body)})
 			}
 		case ev := <-w.Event():
 			switch msg := ev.(type) {

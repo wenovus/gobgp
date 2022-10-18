@@ -55,14 +55,14 @@ func Test_Header(t *testing.T) {
 			binary.BigEndian.PutUint16(buf[8:], uint16(command[v]))
 		}
 		h := &Header{}
-		err := h.decodeFromBytes(buf)
+		err := h.DecodeFromBytes(buf)
 		assert.Equal(nil, err)
 
 		//serialize
 		buf, err = h.serialize()
 		assert.Equal(nil, err)
 		h2 := &Header{}
-		err = h2.decodeFromBytes(buf)
+		err = h2.DecodeFromBytes(buf)
 		assert.Equal(nil, err)
 		assert.Equal(h, h2)
 
@@ -75,7 +75,7 @@ func Test_Header(t *testing.T) {
 		}
 		buf[3] = v
 		h3 := &Header{}
-		err = h3.decodeFromBytes(buf)
+		err = h3.DecodeFromBytes(buf)
 		assert.NotEqual(nil, err, "err should be nil")
 	}
 }
@@ -968,7 +968,7 @@ func Test_NexthopRegisterBody(t *testing.T) {
 	for v := MinZapiVer; v <= MaxZapiVer; v++ {
 		// Test decodeFromBytes()
 		software := NewSoftware(v, "")
-		b := &NexthopRegisterBody{api: command[v].toCommon(v, software)}
+		b := &NexthopRegisterBody{api: command[v].ToCommon(v, software)}
 		err := b.decodeFromBytes(bufIn, v, software)
 		assert.Nil(err)
 
@@ -1052,7 +1052,7 @@ func Test_NexthopUpdateBody(t *testing.T) {
 
 		// Test decodeFromBytes()
 		software := NewSoftware(v, "")
-		b := &NexthopUpdateBody{API: command[v].toCommon(v, software)}
+		b := &NexthopUpdateBody{API: command[v].ToCommon(v, software)}
 		err := b.decodeFromBytes(bufIn, v, software)
 		assert.Nil(err)
 

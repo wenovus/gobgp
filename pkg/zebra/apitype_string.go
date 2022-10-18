@@ -26,7 +26,7 @@ func _() {
 	_ = x[routerIDAdd-15]
 	_ = x[_routerIDDelete-16]
 	_ = x[routerIDUpdate-17]
-	_ = x[hello-18]
+	_ = x[Hello-18]
 	_ = x[_capabilities-19]
 	_ = x[nexthopRegister-20]
 	_ = x[nexthopUnregister-21]
