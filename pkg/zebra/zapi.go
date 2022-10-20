@@ -41,7 +41,7 @@ const (
 )
 
 var (
-	MaxSoftware = NewSoftware(8, "frr8.2")
+	MaxSoftware = NewSoftware(MaxZapiVer, "frr8.2")
 )
 
 const (
@@ -1409,7 +1409,7 @@ func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software 
 	logger.Debug("read message from zebra",
 		log.Fields{
 			"Topic":   "Zebra",
-			"Message": m})
+			"Message": m.String(software)})
 
 	return m, nil
 }
@@ -3612,6 +3612,11 @@ func (m *Message) Serialize(software Software) ([]byte, error) {
 		return nil, err
 	}
 	return append(hdr, body...), nil
+}
+
+func (m *Message) String(software Software) string {
+	command := m.Header.Command.ToCommon(m.Header.Version, software)
+	return fmt.Sprintf("%s: %+v", command, m)
 }
 
 func ParseMessage(hdr *Header, data []byte, software Software) (m *Message, err error) {
