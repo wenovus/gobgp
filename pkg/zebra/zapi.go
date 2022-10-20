@@ -1357,7 +1357,7 @@ type Client struct {
 	logger        log.Logger
 }
 
-func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software Software) (*Message, error) {
+func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software Software, topic string) (*Message, error) {
 	headerBuf, err := ReadAll(conn, int(HeaderSize(version)))
 	if err != nil {
 		logger.Error("failed to read header",
@@ -1475,7 +1475,7 @@ func NewClient(logger log.Logger, network, address string, typ RouteType, versio
 	}
 
 	// Try to receive the first message from Zebra.
-	if m, err := ReceiveSingleMsg(logger, conn, version, software); err != nil {
+	if m, err := ReceiveSingleMsg(logger, conn, version, software, "Zebra"); err != nil {
 		c.close()
 		// Return error explicitly in order to retry connection.
 		return nil, err
@@ -1487,7 +1487,7 @@ func NewClient(logger log.Logger, network, address string, typ RouteType, versio
 	go func() {
 		defer close(incoming)
 		for {
-			if m, err := ReceiveSingleMsg(logger, conn, version, software); err != nil {
+			if m, err := ReceiveSingleMsg(logger, conn, version, software, "Zebra"); err != nil {
 				return
 			} else if m != nil {
 				incoming <- m
