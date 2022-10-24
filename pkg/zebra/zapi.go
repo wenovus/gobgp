@@ -1362,7 +1362,7 @@ func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software 
 	if err != nil {
 		logger.Error("failed to read header",
 			log.Fields{
-				"Topic": "Zebra",
+				"Topic": topic,
 				"Error": err})
 		return nil, err
 	}
@@ -1372,13 +1372,13 @@ func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software 
 	if version != hd.Version {
 		logger.Warn(fmt.Sprintf("ZAPI version mismatch. configured version: %d, version of received message:%d", version, hd.Version),
 			log.Fields{
-				"Topic": "Zebra"})
+				"Topic": topic})
 		return nil, errors.New("ZAPI version mismatch")
 	}
 	if err != nil {
 		logger.Error("failed to decode header",
 			log.Fields{
-				"Topic": "Zebra",
+				"Topic": topic,
 				"Data":  headerBuf,
 				"Error": err})
 		return nil, err
@@ -1388,7 +1388,7 @@ func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software 
 	if err != nil {
 		logger.Error("failed to read body",
 			log.Fields{
-				"Topic":  "Zebra",
+				"Topic":  topic,
 				"Header": hd,
 				"Error":  err})
 		return nil, err
@@ -1400,7 +1400,7 @@ func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software 
 		// error considering the case that body parser is not implemented yet.
 		logger.Warn("failed to decode body",
 			log.Fields{
-				"Topic":  "Zebra",
+				"Topic":  topic,
 				"Header": hd,
 				"Data":   bodyBuf,
 				"Error":  err})
@@ -1408,7 +1408,7 @@ func ReceiveSingleMsg(logger log.Logger, conn net.Conn, version uint8, software 
 	}
 	logger.Debug("read message from zebra",
 		log.Fields{
-			"Topic":   "Zebra",
+			"Topic":   topic,
 			"Message": m.String(software)})
 
 	return m, nil
