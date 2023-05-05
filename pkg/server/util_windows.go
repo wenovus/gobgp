@@ -12,8 +12,8 @@
 // implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//go:build !windows
-// +build !windows
+//go:build windows
+// +build windows
 
 package server
 
@@ -24,7 +24,7 @@ import (
 
 	"github.com/eapache/channels"
 
-	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
+	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
 )
 
 func cleanInfiniteChannel(ch *channels.InfiniteChannel) {
@@ -75,22 +75,10 @@ func extractFamilyFromTCPConn(conn *net.TCPConn) int {
 	return family
 }
 
-func setsockOptString(sc syscall.RawConn, level int, opt int, str string) error {
-	var opterr error
-	fn := func(s uintptr) {
-		opterr = syscall.SetsockoptString(int(s), level, opt, str)
-	}
-	err := sc.Control(fn)
-	if opterr == nil {
-		return err
-	}
-	return opterr
-}
-
 func setsockOptInt(sc syscall.RawConn, level, name, value int) error {
 	var opterr error
 	fn := func(s uintptr) {
-		opterr = syscall.SetsockoptInt(int(s), level, name, value)
+		opterr = syscall.SetsockoptInt(syscall.Handle(s), level, name, value)
 	}
 	err := sc.Control(fn)
 	if opterr == nil {
