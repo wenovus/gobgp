@@ -23,6 +23,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -1053,7 +1054,7 @@ func (h *fsmHandler) recvMessageWithError() (*fsmMsg, error) {
 				h.fsm.lock.RLock()
 				rfMap := h.fsm.rfMap
 				h.fsm.lock.RUnlock()
-				ok, err := bgp.ValidateUpdateMsg(body, rfMap, isEBGP, isConfed)
+				ok, err := bgp.ValidateUpdateMsg(body, rfMap, isEBGP, isConfed, strings.HasPrefix(h.fsm.gConf.Config.RouterId, "127."))
 				if !ok {
 					handling = h.handlingError(m, err, useRevisedError)
 				}
