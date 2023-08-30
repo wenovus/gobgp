@@ -24,8 +24,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/osrg/gobgp/v3/internal/pkg/config"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/internal/pkg/config"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

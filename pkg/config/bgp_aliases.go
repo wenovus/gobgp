@@ -1,6 +1,6 @@
 package config
 
-import "github.com/osrg/gobgp/v3/internal/pkg/config"
+import "github.com/wenovus/gobgp/v3/internal/pkg/config"
 
 type BgpConfigSet = config.BgpConfigSet
 type StdRegexp = config.StdRegexp

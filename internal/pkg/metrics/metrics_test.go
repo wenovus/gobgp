@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	apb "google.golang.org/protobuf/types/known/anypb"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/server"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/server"
 )
 
 func TestMetrics(test *testing.T) {

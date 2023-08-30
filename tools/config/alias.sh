@@ -4,7 +4,7 @@ ALIAS_FILE="pkg/config/bgp_aliases.go"
 
 echo "package config" > "${ALIAS_FILE}"
 echo >> "${ALIAS_FILE}"
-echo 'import "github.com/osrg/gobgp/v3/internal/pkg/config"' >> "${ALIAS_FILE}"
+echo 'import "github.com/wenovus/gobgp/v3/internal/pkg/config"' >> "${ALIAS_FILE}"
 echo >> "${ALIAS_FILE}"
 echo "type BgpConfigSet = config.BgpConfigSet" >> "${ALIAS_FILE}"
 

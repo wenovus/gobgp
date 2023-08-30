@@ -23,9 +23,9 @@ import (
 	"net"
 	"sort"
 
-	"github.com/osrg/gobgp/v3/internal/pkg/config"
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/internal/pkg/config"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 var SelectionOptions config.RouteSelectionOptionsConfig
