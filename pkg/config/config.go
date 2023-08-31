@@ -405,7 +405,7 @@ func UpdateConfig(ctx context.Context, bgpServer *server.BgpServer, c, newConfig
 	if updatePolicy {
 		if err := bgpServer.ResetPeer(ctx, &api.ResetPeerRequest{
 			Address:   "",
-			Direction: api.ResetPeerRequest_IN,
+			Direction: api.ResetPeerRequest_BOTH,
 			Soft:      true,
 		}); err != nil {
 			bgpServer.Log().Fatal("failed to update policy config",
