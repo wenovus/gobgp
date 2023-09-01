@@ -2654,6 +2654,18 @@ func (s *Statement) Evaluate(p *Path, options *PolicyOptions) bool {
 
 func (s *Statement) Apply(logger log.Logger, path *Path, options *PolicyOptions) (RouteType, *Path) {
 	result := s.Evaluate(path, options)
+	policyResult := ROUTE_TYPE_NONE
+	defer func() {
+		var condDesc strings.Builder
+		for _, c := range s.Conditions {
+			condDesc.WriteString(fmt.Sprintf("(%T, %s): %s\n", c, c.Name(), c.Set().String()))
+		}
+		routeAction := "<nil>"
+		if !reflect.ValueOf(s.RouteAction).IsNil() {
+			routeAction = s.RouteAction.String()
+		}
+		fmt.Printf("DEBUG %s Statement.Apply (condition matched: %v) (policy result: %v): route %v: %s: %d: %s\n", s.Name, result, policyResult, path.GetNlri(), routeAction, len(s.Conditions), condDesc.String())
+	}()
 	if result {
 		if len(s.ModActions) != 0 {
 			// apply all modification actions
@@ -2674,6 +2686,10 @@ func (s *Statement) Apply(logger log.Logger, path *Path, options *PolicyOptions)
 			return ROUTE_TYPE_NONE, path
 		}
 		p, _ := s.RouteAction.Apply(path, options)
+		policyResult = ROUTE_TYPE_REJECT
+		if p != nil {
+			policyResult = ROUTE_TYPE_ACCEPT
+		}
 		if p == nil {
 			return ROUTE_TYPE_REJECT, path
 		}
@@ -3116,6 +3132,11 @@ func (r *RoutingPolicy) ApplyPolicy(id string, dir PolicyDirection, before *Path
 	result := ROUTE_TYPE_NONE
 	after := before
 
+	//defer func() {
+	//	if result != ROUTE_TYPE_NONE {
+	//		fmt.Printf("DEBUG ApplyPolicy: %s: route %v: %v\n", id, before.GetNlri(), result)
+	//	}
+	//}()
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 

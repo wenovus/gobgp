@@ -29,6 +29,7 @@ import (
 	"time"
 
 	"github.com/eapache/channels"
+	"github.com/google/go-cmp/cmp"
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 
@@ -36,11 +37,11 @@ import (
 	"github.com/wenovus/gobgp/v3/internal/pkg/config"
 	"github.com/wenovus/gobgp/v3/internal/pkg/table"
 	"github.com/wenovus/gobgp/v3/internal/pkg/version"
-	"github.com/wenovus/gobgp/v3/pkg/zebra"
 	"github.com/wenovus/gobgp/v3/pkg/apiutil"
 	"github.com/wenovus/gobgp/v3/pkg/log"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bmp"
+	"github.com/wenovus/gobgp/v3/pkg/zebra"
 )
 
 type tcpListener struct {
@@ -3289,6 +3290,12 @@ func (s *BgpServer) updateNeighbor(c *config.Neighbor) (needsSoftResetIn bool, e
 	}
 
 	if original.NeedsResendOpenMessage(c) {
+		fmt.Printf("<3>: %s\n", cmp.Diff(original.Config, c.Config))
+		fmt.Printf("<3.1>: %s\n", cmp.Diff(original.Transport, c.Transport))
+		fmt.Printf("<3.2>: %s\n", cmp.Diff(original.AddPaths, c.AddPaths))
+		fmt.Printf("<3.3>: %s\n", cmp.Diff(original.AsPathOptions, c.AsPathOptions))
+		fmt.Printf("<3.4>: %s\n", cmp.Diff(original.GracefulRestart, c.GracefulRestart))
+		fmt.Printf("<3.5>: %s\n", cmp.Diff(original.AfiSafis, c.AfiSafis))
 		sub := uint8(bgp.BGP_ERROR_SUB_OTHER_CONFIGURATION_CHANGE)
 		if original.Config.AdminDown != c.Config.AdminDown {
 			sub = bgp.BGP_ERROR_SUB_ADMINISTRATIVE_SHUTDOWN
