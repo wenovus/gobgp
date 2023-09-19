@@ -22,8 +22,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
 	"github.com/stretchr/testify/assert"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 func TestMrtHdr(t *testing.T) {

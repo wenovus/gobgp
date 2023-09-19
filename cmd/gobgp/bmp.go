@@ -21,9 +21,9 @@ import (
 	"net"
 	"strconv"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/packet/bmp"
 	"github.com/spf13/cobra"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bmp"
 )
 
 func showStations() error {

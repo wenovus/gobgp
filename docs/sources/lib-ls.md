@@ -17,9 +17,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/server"
-	"github.com/osrg/gobgp/v3/pkg/log"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/server"
+	"github.com/wenovus/gobgp/v3/pkg/log"
 )
 
 func main() {
@@ -102,7 +102,7 @@ func main() {
 	select {}
 }
 
-// implement github.com/osrg/gobgp/v3/pkg/log/Logger interface
+// implement github.com/wenovus/gobgp/v3/pkg/log/Logger interface
 type myLogger struct {
 	logger *logrus.Logger
 }

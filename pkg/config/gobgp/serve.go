@@ -3,7 +3,7 @@ package gobgp
 import (
 	"github.com/spf13/viper"
 
-	"github.com/osrg/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/log"
 )
 
 type BgpConfigSet struct {
