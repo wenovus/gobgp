@@ -10,10 +10,10 @@ import (
 
 	"github.com/spf13/viper"
 	"github.com/wenovus/gobgp/v3/internal/pkg/version"
-	"github.com/wenovus/gobgp/v3/internal/pkg/zebra"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bmp"
 	"github.com/wenovus/gobgp/v3/pkg/packet/rtr"
+	"github.com/wenovus/gobgp/v3/pkg/zebra"
 )
 
 const (

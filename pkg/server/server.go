@@ -35,12 +35,12 @@ import (
 	api "github.com/wenovus/gobgp/v3/api"
 	"github.com/wenovus/gobgp/v3/internal/pkg/table"
 	"github.com/wenovus/gobgp/v3/internal/pkg/version"
-	"github.com/wenovus/gobgp/v3/internal/pkg/zebra"
 	"github.com/wenovus/gobgp/v3/pkg/apiutil"
 	"github.com/wenovus/gobgp/v3/pkg/config/gobgp"
 	"github.com/wenovus/gobgp/v3/pkg/log"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 	"github.com/wenovus/gobgp/v3/pkg/packet/bmp"
+	"github.com/wenovus/gobgp/v3/pkg/zebra"
 )
 
 type tcpListener struct {
