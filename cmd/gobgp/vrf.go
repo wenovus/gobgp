@@ -26,9 +26,9 @@ import (
 	"github.com/spf13/cobra"
 	apb "google.golang.org/protobuf/types/known/anypb"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/apiutil"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/apiutil"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 func getVrfs() ([]*api.Vrf, error) {

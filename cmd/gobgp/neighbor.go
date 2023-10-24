@@ -30,10 +30,10 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/apiutil"
-	"github.com/osrg/gobgp/v3/pkg/config/oc"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/apiutil"
+	"github.com/wenovus/gobgp/v3/pkg/config/oc"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 // used in showRoute() to determine the width of each column
