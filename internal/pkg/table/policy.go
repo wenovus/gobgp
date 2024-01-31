@@ -1647,12 +1647,16 @@ func (c *CommunityCondition) Option() MatchOption {
 }
 
 func (c *CommunityCondition) Evaluate(path *Path, _ *PolicyOptions) bool {
+	var paths []string
 	cs := path.GetCommunities()
+	for _, y := range cs {
+		paths = append(paths, fmt.Sprintf("%d:%d", y>>16, y&0x0000ffff))
+	}
+	fmt.Printf("DEBUG CommunityCondition.Evaluate: communities: %+v\n", paths)
 	result := false
 	for _, x := range c.set.list {
 		result = false
 		for _, y := range cs {
-			fmt.Printf("DEBUG CommunityCondition.Evaluate: has community %v\n", fmt.Sprintf("%d:%d", y>>16, y&0x0000ffff))
 			if x.MatchString(fmt.Sprintf("%d:%d", y>>16, y&0x0000ffff)) {
 				result = true
 				break
