@@ -1652,6 +1652,7 @@ func (c *CommunityCondition) Evaluate(path *Path, _ *PolicyOptions) bool {
 	for _, x := range c.set.list {
 		result = false
 		for _, y := range cs {
+			fmt.Printf("DEBUG CommunityCondition.Evaluate: has community %v\n", fmt.Sprintf("%d:%d", y>>16, y&0x0000ffff))
 			if x.MatchString(fmt.Sprintf("%d:%d", y>>16, y&0x0000ffff)) {
 				result = true
 				break
