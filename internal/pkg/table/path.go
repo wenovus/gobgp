@@ -794,6 +794,7 @@ func (path *Path) GetCommunities() []uint32 {
 // SetCommunities adds or replaces communities with new ones.
 // If the length of communities is 0 and doReplace is true, it clears communities.
 func (path *Path) SetCommunities(communities []uint32, doReplace bool) {
+	fmt.Printf("TRACE Path.SetCommunities %v, %v\n", communities, doReplace)
 
 	if len(communities) == 0 && doReplace {
 		// clear communities

@@ -29,6 +29,7 @@ import (
 	"time"
 
 	"github.com/eapache/channels"
+	"github.com/google/go-cmp/cmp"
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 
@@ -1169,6 +1170,7 @@ func (s *BgpServer) handleRouteRefresh(peer *peer, e *fsmMsg) []*table.Path {
 }
 
 func (s *BgpServer) propagateUpdate(peer *peer, pathList []*table.Path) {
+	fmt.Printf("<1t> propagateUpdate: %+v\n", pathList)
 	rs := peer != nil && peer.isRouteServerClient()
 	vrf := false
 	if peer != nil {
@@ -1269,8 +1271,10 @@ func (s *BgpServer) propagateUpdate(peer *peer, pathList []*table.Path) {
 					// Skips filtering because the paths are already filtered
 					// and the withdrawal does not need the path attributes.
 				} else {
+					fmt.Println("<1.1>")
 					paths = s.processOutgoingPaths(peer, paths, nil)
 				}
+				fmt.Printf("<1> propagateUpdate: %+v\n", paths)
 				sendfsmOutgoingMsg(peer, paths, nil, false)
 			}
 		}
@@ -1298,6 +1302,7 @@ func dstsToPaths(id string, as uint32, dsts []*table.Update) ([]*table.Path, []*
 }
 
 func (s *BgpServer) propagateUpdateToNeighbors(source *peer, newPath *table.Path, dsts []*table.Update, needOld bool) {
+	fmt.Printf("<2t> propagateUpdateToNeighbors: %+v, %+v\n", newPath, dsts)
 	if table.SelectionOptions.DisableBestPathSelection {
 		return
 	}
@@ -1368,7 +1373,9 @@ func (s *BgpServer) propagateUpdateToNeighbors(source *peer, newPath *table.Path
 		if !needOld {
 			oldList = nil
 		}
+		fmt.Println("<2.1>")
 		if paths := s.processOutgoingPaths(targetPeer, bestList, oldList); len(paths) > 0 {
+			fmt.Printf("<2> propagateUpdateToNeighbors: %+v\n", paths)
 			sendfsmOutgoingMsg(targetPeer, paths, nil, false)
 		}
 	}
@@ -3362,6 +3369,12 @@ func (s *BgpServer) updateNeighbor(c *oc.Neighbor) (needsSoftResetIn bool, err e
 	}
 
 	if original.NeedsResendOpenMessage(c) {
+		fmt.Printf("<3>: %s\n", cmp.Diff(original.Config, c.Config))
+		fmt.Printf("<3.1>: %s\n", cmp.Diff(original.Transport, c.Transport))
+		fmt.Printf("<3.2>: %s\n", cmp.Diff(original.AddPaths, c.AddPaths))
+		fmt.Printf("<3.3>: %s\n", cmp.Diff(original.AsPathOptions, c.AsPathOptions))
+		fmt.Printf("<3.4>: %s\n", cmp.Diff(original.GracefulRestart, c.GracefulRestart))
+		fmt.Printf("<3.5>: %s\n", cmp.Diff(original.AfiSafis, c.AfiSafis))
 		sub := uint8(bgp.BGP_ERROR_SUB_OTHER_CONFIGURATION_CHANGE)
 		if original.Config.AdminDown != c.Config.AdminDown {
 			sub = bgp.BGP_ERROR_SUB_ADMINISTRATIVE_SHUTDOWN

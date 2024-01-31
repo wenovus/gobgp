@@ -1071,6 +1071,15 @@ func (h *fsmHandler) recvMessageWithError() (*fsmMsg, error) {
 				copy(fmsg.payload, headerBuf)
 				copy(fmsg.payload[len(headerBuf):], bodyBuf)
 
+				///////////////// DEBUG /////////////////
+				for _, a := range body.PathAttributes {
+					switch p := a.(type) {
+					case *bgp.PathAttributeCommunities:
+						fmt.Println(h.fsm.gConf.Config.RouterId, h.fsm.pConf.Config.NeighborAddress, body.NLRI, p.String())
+					}
+				}
+				///////////////// DEBUG /////////////////
+
 				h.fsm.lock.RLock()
 				rfMap := h.fsm.rfMap
 				h.fsm.lock.RUnlock()

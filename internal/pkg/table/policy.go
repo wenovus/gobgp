@@ -31,6 +31,7 @@ import (
 	"github.com/osrg/gobgp/v3/pkg/config/oc"
 	"github.com/osrg/gobgp/v3/pkg/log"
 	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
+	"github.com/wenovus/gobgp/v3/pkg/config/gobgp"
 )
 
 type PolicyOptions struct {
@@ -2061,13 +2062,16 @@ type CommunityAction struct {
 }
 
 func RegexpRemoveCommunities(path *Path, exps []*regexp.Regexp) {
+	fmt.Printf("TRACE RegexpRemoveCommunities\n")
 	comms := path.GetCommunities()
 	newComms := make([]uint32, 0, len(comms))
 	for _, comm := range comms {
 		c := fmt.Sprintf("%d:%d", comm>>16, comm&0x0000ffff)
 		match := false
 		for _, exp := range exps {
-			if exp.MatchString(c) {
+			res := exp.MatchString(c)
+			fmt.Printf("TRACE RegexpRemoveCommunities: match %q on regex %s: %v\n", c, exp, res)
+			if res {
 				match = true
 				break
 			}
@@ -2126,6 +2130,7 @@ func (a *CommunityAction) Type() ActionType {
 }
 
 func (a *CommunityAction) Apply(path *Path, _ *PolicyOptions) (*Path, error) {
+	fmt.Printf("TRACE CommunityAction.Apply %s\n", a.action)
 	switch a.action {
 	case oc.BGP_SET_COMMUNITY_OPTION_TYPE_ADD:
 		path.SetCommunities(a.list, false)
@@ -2146,6 +2151,7 @@ func (a *CommunityAction) ToConfig() *oc.SetCommunity {
 	for _, exp := range a.removeList {
 		cs = append(cs, exp.String())
 	}
+	fmt.Printf("TRACE CommunityAction.ToConfig %s, %s\n", a.action, string(a.action))
 	return &oc.SetCommunity{
 		Options:            string(a.action),
 		SetCommunityMethod: oc.SetCommunityMethod{CommunitiesList: cs},
@@ -2166,6 +2172,7 @@ func (a *CommunityAction) String() string {
 }
 
 func NewCommunityAction(c oc.SetCommunity) (*CommunityAction, error) {
+	fmt.Printf("TRACE NewCommunityAction: %v, %v\n", c.Options, c)
 	a, ok := CommunityOptionValueMap[strings.ToLower(c.Options)]
 	if !ok {
 		if len(c.SetCommunityMethod.CommunitiesList) == 0 {
@@ -2195,11 +2202,13 @@ func NewCommunityAction(c oc.SetCommunity) (*CommunityAction, error) {
 			list = append(list, comm)
 		}
 	}
-	return &CommunityAction{
+	v := CommunityAction{
 		action:     a,
 		list:       list,
 		removeList: removeList,
-	}, nil
+	}
+	fmt.Printf("TRACE NewCommunityAction: %v\n", v)
+	return &v, nil
 }
 
 type ExtCommunityAction struct {
@@ -2653,12 +2662,26 @@ func (s *Statement) Evaluate(p *Path, options *PolicyOptions) bool {
 }
 
 func (s *Statement) Apply(logger log.Logger, path *Path, options *PolicyOptions) (RouteType, *Path) {
+	fmt.Printf("TRACE Statement.Apply %q\n", s.Name)
 	result := s.Evaluate(path, options)
+	policyResult := ROUTE_TYPE_NONE
+	defer func() {
+		var condDesc strings.Builder
+		for _, c := range s.Conditions {
+			condDesc.WriteString(fmt.Sprintf("(%T, %s): %s\n", c, c.Name(), c.Set().String()))
+		}
+		routeAction := "<nil>"
+		if !reflect.ValueOf(s.RouteAction).IsNil() {
+			routeAction = s.RouteAction.String()
+		}
+		fmt.Printf("DEBUG %s Statement.Apply (condition matched: %v) (policy result: %v): route %v: %s: %d: %s\n", s.Name, result, policyResult, path.GetNlri(), routeAction, len(s.Conditions), condDesc.String())
+	}()
 	if result {
 		if len(s.ModActions) != 0 {
 			// apply all modification actions
 			path = path.Clone(path.IsWithdraw)
 			for _, action := range s.ModActions {
+				fmt.Printf("DEBUG action %v\n", action)
 				var err error
 				path, err = action.Apply(path, options)
 				if err != nil {
@@ -2674,6 +2697,10 @@ func (s *Statement) Apply(logger log.Logger, path *Path, options *PolicyOptions)
 			return ROUTE_TYPE_NONE, path
 		}
 		p, _ := s.RouteAction.Apply(path, options)
+		policyResult = ROUTE_TYPE_REJECT
+		if p != nil {
+			policyResult = ROUTE_TYPE_ACCEPT
+		}
 		if p == nil {
 			return ROUTE_TYPE_REJECT, path
 		}
@@ -2984,6 +3011,7 @@ type Policy struct {
 // If a condition match, then this function stops evaluation and
 // subsequent conditions are skipped.
 func (p *Policy) Apply(logger log.Logger, path *Path, options *PolicyOptions) (RouteType, *Path) {
+	fmt.Printf("TRACE Policy.Apply %q\n", p.Name)
 	for _, stmt := range p.Statements {
 		var result RouteType
 		result, path = stmt.Apply(logger, path, options)
@@ -3116,6 +3144,11 @@ func (r *RoutingPolicy) ApplyPolicy(id string, dir PolicyDirection, before *Path
 	result := ROUTE_TYPE_NONE
 	after := before
 
+	//defer func() {
+	//	if result != ROUTE_TYPE_NONE {
+	//		fmt.Printf("DEBUG ApplyPolicy: %s: route %v: %v\n", id, before.GetNlri(), result)
+	//	}
+	//}()
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -4006,6 +4039,7 @@ func toStatementApi(s *oc.Statement) *api.Statement {
 			if len(s.Actions.BgpActions.SetCommunity.SetCommunityMethod.CommunitiesList) == 0 {
 				return nil
 			}
+			fmt.Printf("TRACE toStatementApi Community: %v -> %v -> %v -> %v\n", s.Actions.BgpActions.SetCommunity.Options, gobgp.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options), gobgp.BgpSetCommunityOptionTypeToIntMap[gobgp.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)], api.CommunityAction_Type(gobgp.BgpSetCommunityOptionTypeToIntMap[gobgp.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)]))
 			return &api.CommunityAction{
 				Type:        api.CommunityAction_Type(oc.BgpSetCommunityOptionTypeToIntMap[oc.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)]),
 				Communities: s.Actions.BgpActions.SetCommunity.SetCommunityMethod.CommunitiesList}

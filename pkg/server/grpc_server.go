@@ -1448,6 +1448,7 @@ func newCommunityActionFromApiStruct(a *api.CommunityAction) (*table.CommunityAc
 	if a == nil {
 		return nil, nil
 	}
+	fmt.Printf("TRACE newCommunityActionFromApiStruct %v, %v\n", a.Type, a.Communities)
 	return table.NewCommunityAction(oc.SetCommunity{
 		Options: string(oc.IntToBgpSetCommunityOptionTypeMap[int(a.Type)]),
 		SetCommunityMethod: oc.SetCommunityMethod{
