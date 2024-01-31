@@ -2667,7 +2667,7 @@ func (s *Statement) Apply(logger log.Logger, path *Path, options *PolicyOptions)
 	defer func() {
 		var condDesc strings.Builder
 		for _, c := range s.Conditions {
-			condResult := !c.Evaluate(path, options)
+			condResult := c.Evaluate(path, options)
 			condDesc.WriteString(fmt.Sprintf("(%T, %s): %s (condition matched: %v)\n", c, c.Name(), c.Set().String(), condResult))
 		}
 		routeAction := "<nil>"
