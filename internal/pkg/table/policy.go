@@ -27,11 +27,10 @@ import (
 	"sync"
 
 	"github.com/k-sone/critbitgo"
-	api "github.com/osrg/gobgp/v3/api"
-	"github.com/osrg/gobgp/v3/pkg/config/oc"
-	"github.com/osrg/gobgp/v3/pkg/log"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
-	"github.com/wenovus/gobgp/v3/pkg/config/gobgp"
+	api "github.com/wenovus/gobgp/v3/api"
+	"github.com/wenovus/gobgp/v3/pkg/config/oc"
+	"github.com/wenovus/gobgp/v3/pkg/log"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 type PolicyOptions struct {
@@ -4039,7 +4038,7 @@ func toStatementApi(s *oc.Statement) *api.Statement {
 			if len(s.Actions.BgpActions.SetCommunity.SetCommunityMethod.CommunitiesList) == 0 {
 				return nil
 			}
-			fmt.Printf("TRACE toStatementApi Community: %v -> %v -> %v -> %v\n", s.Actions.BgpActions.SetCommunity.Options, gobgp.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options), gobgp.BgpSetCommunityOptionTypeToIntMap[gobgp.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)], api.CommunityAction_Type(gobgp.BgpSetCommunityOptionTypeToIntMap[gobgp.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)]))
+			fmt.Printf("TRACE toStatementApi Community: %v -> %v -> %v -> %v\n", s.Actions.BgpActions.SetCommunity.Options, oc.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options), oc.BgpSetCommunityOptionTypeToIntMap[oc.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)], api.CommunityAction_Type(oc.BgpSetCommunityOptionTypeToIntMap[oc.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)]))
 			return &api.CommunityAction{
 				Type:        api.CommunityAction_Type(oc.BgpSetCommunityOptionTypeToIntMap[oc.BgpSetCommunityOptionType(s.Actions.BgpActions.SetCommunity.Options)]),
 				Communities: s.Actions.BgpActions.SetCommunity.SetCommunityMethod.CommunitiesList}

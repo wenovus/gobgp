@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/osrg/gobgp/v3/pkg/config/oc"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
 	"github.com/stretchr/testify/assert"
+	"github.com/wenovus/gobgp/v3/pkg/config/oc"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 func strToASParam(str string) *bgp.PathAttributeAsPath {

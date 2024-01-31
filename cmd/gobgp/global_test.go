@@ -19,9 +19,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/osrg/gobgp/v3/pkg/apiutil"
-	"github.com/osrg/gobgp/v3/pkg/packet/bgp"
 	"github.com/stretchr/testify/assert"
+	"github.com/wenovus/gobgp/v3/pkg/apiutil"
+	"github.com/wenovus/gobgp/v3/pkg/packet/bgp"
 )
 
 func Test_ParsePath(t *testing.T) {
